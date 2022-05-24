@@ -18,8 +18,99 @@ class Camera:
         thresh = cv.inRange(hsv, hsv_min, hsv_max)  # применяем цветовой фильтр
         return thresh
 
-    def trackbar(self):
-        pass
+    def trackbar_for_photo(self):
+        if __name__ == '__main__':
+            def nothing(*arg):
+                pass
+
+        cv.namedWindow("result")  # создаем главное окно
+        cv.namedWindow("settings")  # создаем окно настроек
+
+        img = cv.imread(self.img)
+
+        # создаем 6 бегунков для настройки начального и конечного цвета фильтра
+        cv.createTrackbar('h1', 'settings', 0, 255, nothing)
+        cv.createTrackbar('s1', 'settings', 0, 255, nothing)
+        cv.createTrackbar('v1', 'settings', 0, 255, nothing)
+        cv.createTrackbar('h2', 'settings', 255, 255, nothing)
+        cv.createTrackbar('s2', 'settings', 255, 255, nothing)
+        cv.createTrackbar('v2', 'settings', 255, 255, nothing)
+
+        while True:
+            hsv = Camera.color_model(self, img)
+
+            # считываем значения бегунков
+            h1 = cv.getTrackbarPos('h1', 'settings')
+            s1 = cv.getTrackbarPos('s1', 'settings')
+            v1 = cv.getTrackbarPos('v1', 'settings')
+            h2 = cv.getTrackbarPos('h2', 'settings')
+            s2 = cv.getTrackbarPos('s2', 'settings')
+            v2 = cv.getTrackbarPos('v2', 'settings')
+
+            # формируем начальный и конечный цвет фильтра
+            h_min = np.array((h1, s1, v1), np.uint8)
+            h_max = np.array((h2, s2, v2), np.uint8)
+
+            # накладываем фильтр на кадр в модели HSV
+            thresh = Camera.color_filter(self, hsv, h_min, h_max)
+
+            ch = cv.waitKey(5)
+            if ch == 27:
+                break
+
+            cv.imshow('result', thresh)
+
+        cv.destroyAllWindows()
+
+        return h1, s1, v1, h2, s2, v2
+
+    def trackbar_for_video(self):
+        if __name__ == '__main__':
+            def nothing(*arg):
+                pass
+
+        cv.namedWindow("result")
+        cv.namedWindow("settings")
+
+        cap = cv.VideoCapture(0)
+
+        cv.createTrackbar('h1', 'settings', 0, 255, nothing)
+        cv.createTrackbar('s1', 'settings', 0, 255, nothing)
+        cv.createTrackbar('v1', 'settings', 0, 255, nothing)
+        cv.createTrackbar('h2', 'settings', 255, 255, nothing)
+        cv.createTrackbar('s2', 'settings', 255, 255, nothing)
+        cv.createTrackbar('v2', 'settings', 255, 255, nothing)
+
+        while True:
+            flag, img = cap.read()
+            hsv = Camera.color_model(self, img)
+
+            h1 = cv.getTrackbarPos('h1', 'settings')
+            s1 = cv.getTrackbarPos('s1', 'settings')
+            v1 = cv.getTrackbarPos('v1', 'settings')
+            h2 = cv.getTrackbarPos('h2', 'settings')
+            s2 = cv.getTrackbarPos('s2', 'settings')
+            v2 = cv.getTrackbarPos('v2', 'settings')
+
+            # формируем начальный и конечный цвет фильтра
+            h_min = np.array((h1, s1, v1), np.uint8)
+            h_max = np.array((h2, s2, v2), np.uint8)
+
+            # накладываем фильтр на кадр в модели HSV
+            thresh = Camera.color_filter(self, hsv, h_min, h_max)
+
+            cv.imshow('result', thresh)
+
+            ch = cv.waitKey(5)
+            if ch == 27:
+                break
+
+        cv.imwrite('cam.png', img)
+
+        cap.release()
+        cv.destroyAllWindows()
+
+        return h1, s1, v1, h2, s2, v2
 
     def svg(self):
         pass
