@@ -3,7 +3,7 @@ import cv2 as cv
 
 class Camera:
     def __init__(self, camera_id=0):
-        self.img = 'donut-1024x768.jpeg'
+        self.img = 0
         self.camera_id = camera_id
         self.cap = cv.VideoCapture(camera_id)
         if not self.cap.isOpened():
