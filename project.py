@@ -21,6 +21,7 @@ class Camera:
     def svg(self):
         pass
 
+    
 class Photo(Camera):
     def contours_1(self):
         pass
