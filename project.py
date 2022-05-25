@@ -263,3 +263,26 @@ class Video(Camera):
         cv.destroyAllWindows()
 
         return 'contours.png'
+    
+    
+photo = Photo()
+video = Video()
+print('Вы пользуетесь программой поиска контуров на картинке (с камеры) '
+      'и сохранения их в вектороное изображение svg.')
+print('Ознокомтесь с инструкцией по пользованию программой '
+      'в файле README.md на сайте https://github.com/nem1sha/term-project')
+n = int(input('Если вы ознакомились с инструкцией, введите с клавиатуры "1",  а затем ENTER'))
+if n == 1:
+    var = int(input('Вам предстоит выбрать вариант работы программы '
+                    ' от 1 до 3 (варианты работы программы прописанны в инструкции)'))
+    if var == 1:
+        rez_1 = photo.contours_1()
+        photo.format_svg(rez_1)
+    elif var == 2:
+        rez_2 = photo.contours_2()
+        photo.format_svg(rez_2)
+    elif var == 3:
+        rez_3 = video.contours_3()
+        video.format_svg(rez_3)
+    elif var != 1 and var != 2 and var != 3:
+        print('Такого варианта нет, попробуйте заново.')
