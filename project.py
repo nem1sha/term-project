@@ -146,9 +146,49 @@ class Photo(Camera):
         cv.destroyAllWindows()
 
     def contours_2(self):
-        pass
+        img = cv.imread(self.img)
+
+        h1, s1, v1, h2, s2, v2 = Camera.trackbar_for_photo(self)
+        hsv = Camera.color_model(self, img)
+        h_min = np.array((h1, s1, v1), np.uint8)
+        h_max = np.array((h2, s2, v2), np.uint8)
+
+        new_img = Camera.color_filter(self, hsv, h_min, h_max)  # применяем цветовой фильтр
+        # ищем контуры и складируем их в переменную contours
+        contours, hierarchy = cv.findContours(new_img.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+
+        # отображаем контуры поверх изображения
+        index = 0
+        layer = 0
+
+        cv.drawContours(img, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
+        cv.imshow('contours', img)
+
+        cv.waitKey()
+        cv.destroyAllWindows()
+
+        return 'contours.png'
 
 
 class Video(Camera):
     def contours_3(self):
-        pass
+        h1, s1, v1, h2, s2, v2 = Camera.trackbar_for_video(self)
+        img = cv.imread('cam.png')
+        
+        hsv = Camera.color_model(self, img)
+        h_min = np.array((h1, s1, v1), np.uint8)
+        h_max = np.array((h2, s2, v2), np.uint8)
+
+        new_img = Camera.color_filter(self, hsv, h_min, h_max)  # применяем цветовой фильтр
+        # ищем контуры и складируем их в переменную contours
+        contours, hierarchy = cv.findContours(new_img.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+
+        # отображаем контуры поверх изображения
+        index = 0
+        layer = 0
+
+        cv.drawContours(img, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
+        cv.imshow('contours', img)
+
+        cv.waitKey()
+        cv.destroyAllWindows()
