@@ -170,7 +170,7 @@ class Camera:
                 f.write(start_svg_tag + svg_size + base64String + end_svg_tag)
                 print('Converted ' + img + ' to ' + os.path.splitext(img)[0] + ".svg")
 
-    def white_filter(self, img):
+    def white_background(self, img):
         fn = Image.open(img)
         new_img = Image.new('RGB', fn.size, 'white')
         new_img.save('white.png')
@@ -200,7 +200,7 @@ class Photo(Camera):
         index = 0
         layer = 0
 
-        fn = Camera.white_filter(self, self.img)
+        fn = Camera.white_background(self, self.img)
         vis = cv.imread(fn)
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
@@ -226,7 +226,7 @@ class Photo(Camera):
         index = 0
         layer = 0
 
-        fn = Camera.white_filter(self, self.img)
+        fn = Camera.white_background(self, self.img)
         vis = cv.imread(fn)
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
@@ -254,7 +254,7 @@ class Video(Camera):
         index = 0
         layer = 0
 
-        fn = Camera.white_filter(self, self.img)
+        fn = Camera.white_background(self, self.img)
         vis = cv.imread(fn)
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
