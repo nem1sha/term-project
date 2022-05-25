@@ -1,5 +1,10 @@
 import cv2 as cv
 import numpy as np
+from PIL import Image
+import os
+import base64
+import struct
+import imghdr
 
 
 class Camera:
@@ -112,26 +117,7 @@ class Camera:
 
         return h1, s1, v1, h2, s2, v2
 
-    def svg(self):
- 
-class Camera:
-    def __init__(self, camera_id=0):
-        self.img = 'donut-1024x768.jpg'
-        self.camera_id = camera_id
-        self.cap = cv.VideoCapture(camera_id)
-        if not self.cap.isOpened():
-            raise f'Cannot capture camera'
-
-    def color_model(self):
-        pass
-
-    def color_filter(self):
-        pass
-
-    def trackbar(self):
-        pass
-
-    def svg(self):
+    def format_svg(self, img):
         def get_image_size(fname):
             with open(fname, 'rb') as fhandle:
                 head = fhandle.read(24)
@@ -184,18 +170,11 @@ class Camera:
                 f.write(start_svg_tag + svg_size + base64String + end_svg_tag)
                 print('Converted ' + img + ' to ' + os.path.splitext(img)[0] + ".svg")
 
-
-class Photo(Camera):
-    def contours_1(self):
-        pass
-
-    def contours_2(self):
-        pass
-
-
-class Video(Camera):
-    def contours_3(self):
-        pass
+    def white_filter(self, img):
+        fn = Image.open(img)
+        new_img = Image.new('RGB', fn.size, 'white')
+        new_img.save('white.png')
+        return 'white.png'
 
 
 class Photo(Camera):
@@ -221,11 +200,15 @@ class Photo(Camera):
         index = 0
         layer = 0
 
-        cv.drawContours(img, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
-        cv.imshow('contours', img)
+        fn = Camera.white_filter(self, self.img)
+        vis = cv.imread(fn)
+        cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
+        cv.imwrite('contours.png', vis)
 
         cv.waitKey()
         cv.destroyAllWindows()
+
+        return 'contours.png'
 
     def contours_2(self):
         img = cv.imread(self.img)
@@ -243,8 +226,10 @@ class Photo(Camera):
         index = 0
         layer = 0
 
-        cv.drawContours(img, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
-        cv.imshow('contours', img)
+        fn = Camera.white_filter(self, self.img)
+        vis = cv.imread(fn)
+        cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
+        cv.imwrite('contours.png', vis)
 
         cv.waitKey()
         cv.destroyAllWindows()
@@ -256,7 +241,7 @@ class Video(Camera):
     def contours_3(self):
         h1, s1, v1, h2, s2, v2 = Camera.trackbar_for_video(self)
         img = cv.imread('cam.png')
-        
+
         hsv = Camera.color_model(self, img)
         h_min = np.array((h1, s1, v1), np.uint8)
         h_max = np.array((h2, s2, v2), np.uint8)
@@ -269,8 +254,12 @@ class Video(Camera):
         index = 0
         layer = 0
 
-        cv.drawContours(img, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
-        cv.imshow('contours', img)
+        fn = Camera.white_filter(self, self.img)
+        vis = cv.imread(fn)
+        cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
+        cv.imwrite('contours.png', vis)
 
         cv.waitKey()
         cv.destroyAllWindows()
+
+        return 'contours.png'
