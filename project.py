@@ -205,9 +205,6 @@ class Photo(Camera):
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
 
-        cv.waitKey()
-        cv.destroyAllWindows()
-
     def contours_2(self):
         img = cv.imread(self.img)
 
@@ -228,9 +225,6 @@ class Photo(Camera):
         vis = cv.imread(fn)
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
-
-        cv.waitKey()
-        cv.destroyAllWindows()
 
 
 class Video(Camera):
@@ -255,9 +249,6 @@ class Video(Camera):
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
 
-        cv.waitKey()
-        cv.destroyAllWindows()
-    
     
 photo = Photo()
 video = Video()
