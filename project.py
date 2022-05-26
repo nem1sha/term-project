@@ -9,7 +9,7 @@ import imghdr
 
 class Camera:
     def __init__(self, camera_id=0):
-        self.img = 'donut-1024x768.jpeg'
+        self.img = 'путь к картинке'
         self.camera_id = camera_id
         self.cap = cv.VideoCapture(camera_id)
         if not self.cap.isOpened():
@@ -117,7 +117,7 @@ class Camera:
 
         return h1, s1, v1, h2, s2, v2
 
-    def format_svg(self, img):
+    def format_svg(self):
         def get_image_size(fname):
             with open(fname, 'rb') as fhandle:
                 head = fhandle.read(24)
@@ -254,7 +254,7 @@ class Video(Camera):
         index = 0
         layer = 0
 
-        fn = Camera.white_background(self, self.img)
+        fn = Camera.white_background(self, img)
         vis = cv.imread(fn)
         cv.drawContours(vis, contours, index, (255, 0, 0), 2, cv.LINE_AA, hierarchy, layer)
         cv.imwrite('contours.png', vis)
@@ -277,12 +277,12 @@ if n == 1:
                     ' от 1 до 3 (варианты работы программы прописанны в инструкции)'))
     if var == 1:
         rez_1 = photo.contours_1()
-        photo.format_svg(rez_1)
+        photo.format_svg()
     elif var == 2:
-        rez_2 = photo.contours_2()
-        photo.format_svg(rez_2)
+        photo.contours_2()
+        photo.format_svg()
     elif var == 3:
-        rez_3 = video.contours_3()
-        video.format_svg(rez_3)
+        video.contours_3()
+        video.format_svg()
     elif var != 1 and var != 2 and var != 3:
         print('Такого варианта нет, попробуйте заново.')
