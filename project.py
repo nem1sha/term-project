@@ -276,7 +276,7 @@ if n == 1:
     var = int(input('Вам предстоит выбрать вариант работы программы '
                     ' от 1 до 3 (варианты работы программы прописанны в инструкции)'))
     if var == 1:
-        rez_1 = photo.contours_1()
+        photo.contours_1()
         photo.format_svg()
     elif var == 2:
         photo.contours_2()
