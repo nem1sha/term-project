@@ -208,8 +208,6 @@ class Photo(Camera):
         cv.waitKey()
         cv.destroyAllWindows()
 
-        return 'contours.png'
-
     def contours_2(self):
         img = cv.imread(self.img)
 
@@ -233,8 +231,6 @@ class Photo(Camera):
 
         cv.waitKey()
         cv.destroyAllWindows()
-
-        return 'contours.png'
 
 
 class Video(Camera):
@@ -261,8 +257,6 @@ class Video(Camera):
 
         cv.waitKey()
         cv.destroyAllWindows()
-
-        return 'contours.png'
     
     
 photo = Photo()
